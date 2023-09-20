@@ -15,4 +15,5 @@
 
 ## Plans for the next report:
 
--To have a proper design documentation of the architecture based on the provided requirements and additional needs
+- To have a proper design documentation of the architecture based on the provided requirements and additional needs.
+- Start development of the Flutter App
