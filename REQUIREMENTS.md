@@ -1,29 +1,5 @@
 # Archethought Mobile App Requirements Document
 
-## Table of Contents
-
-1. **Introduction**
-   1.1. Purpose
-   1.2. Target Audience
-   1.3. Overview
-2. **User Needs**
-   2.1. Understanding the Elderly Users
-   2.2. Challenges Faced by the Elderly
-3. **App Features**
-   3.1. Personal Village Concept
-   3.2. Member Directory
-   3.3. Communication Features
-   3.4. Knowledge Library
-4. **Use Cases**
-   4.1. Use Case 1: Connecting with Family and Friends
-   4.2. Use Case 2: Seeking Professional Assistance
-   4.3. Use Case 3: Accessing Essential Services
-5. **Technical Requirements**
-   5.1. Platform Compatibility
-   5.2. Security and Privacy (PASS)
-   5.3. Accessibility
-   5.4. Scalability
-
 ## 1. Introduction
 
 ### 1.1. Purpose
