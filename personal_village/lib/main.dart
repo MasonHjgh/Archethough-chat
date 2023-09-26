@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:personal_village/utility/navigation_service.dart';
 import 'package:personal_village/utility/router.dart';
 import 'package:personal_village/values/routes.dart';
 
@@ -30,6 +31,7 @@ class _MainAppState extends State<MainApp> {
       initialRoute: initialAppRoute,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: generateRoute,
+      navigatorKey: NavigationService.pvNavKey,
     );
   }
 }
