@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:personal_village/values/constants.dart';
 import 'package:personal_village/values/routes.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -28,7 +29,7 @@ class LoginScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                 child: Image.asset(
-                  'assets/villageLogo.png', // Change this to the path of your image asset
+                  pvAppLogo, // Change this to the path of your image asset
                   width: 400.0, // Adjust the width as needed
                   height: 400.0, // Adjust the height as needed
                 ),
@@ -36,7 +37,8 @@ class LoginScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   // TODO: Handle sign-in button click
-                  Navigator.pushNamed(context, homeRoute); // Navigate to the home route
+                  Navigator.pushNamed(
+                      context, homeRoute); // Navigate to the home route
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green[100],
