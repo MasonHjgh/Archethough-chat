@@ -21,7 +21,7 @@ class _MainAppState extends State<MainApp> {
   void initState() {
     super.initState();
     //TODO: Check if user has logged in for first time. Show Onboarding widget if first time
-    initialAppRoute = homeRoute;
+    initialAppRoute = loginRoute;
   }
 
   @override
