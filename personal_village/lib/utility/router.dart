@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:personal_village/dashboard/dashboard.dart';
+import 'package:personal_village/login/login.dart';
 import 'package:personal_village/screens/fallback_screen.dart';
-import 'package:personal_village/screens/home.dart';
-import 'package:personal_village/screens/login.dart';
+import 'package:personal_village/splash/splash.dart';
 import 'package:personal_village/values/routes.dart';
 
 Route generateRoute(RouteSettings settings) {
   switch (settings.name) {
-    case homeRoute:
-      return MaterialPageRoute(builder: (context) => Home());
+    case splashRoute:
+      return MaterialPageRoute(builder: (context) => SplashPage());
+    case dashboardRoute:
+      return MaterialPageRoute(builder: (context) => DashboardView());
 
     case loginRoute:
-      return MaterialPageRoute(builder: (context) => LoginScreen());
+      return MaterialPageRoute(builder: (context) => LoginPage());
 
     default:
       return MaterialPageRoute(builder: (context) => FallbackScreen());

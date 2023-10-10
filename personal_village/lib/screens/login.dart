@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:personal_village/values/constants.dart';
-import 'package:personal_village/values/routes.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -37,8 +36,8 @@ class LoginScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   // TODO: Handle sign-in button click
-                  Navigator.pushNamed(
-                      context, homeRoute); // Navigate to the home route
+                  // Navigator.pushNamed(
+                  //     context, homeRoute); // Navigate to the home route
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green[100],

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:personal_village/utility/navigation_service.dart';
-import 'package:personal_village/utility/router.dart';
+import 'package:personal_village/screens/app_view.dart';
+import 'package:personal_village/utility/get_it_handler.dart';
 import 'package:personal_village/values/routes.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  setupGetIt();
   runApp(const MainApp());
 }
 
@@ -27,11 +30,7 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     //TODO: Add theme here
-    return MaterialApp(
-      initialRoute: initialAppRoute,
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: generateRoute,
-      navigatorKey: NavigationService.pvNavKey,
-    );
+
+    return App();
   }
 }

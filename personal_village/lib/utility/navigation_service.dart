@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NavigationService<T, U> {
-  static GlobalKey<NavigatorState> pvNavKey = GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState> pvNavKey = GlobalKey<NavigatorState>();
 
   Future<T?> pushNamed(String routeName, {Object? args}) async {
     return await pvNavKey.currentState!.pushNamed<T>(
