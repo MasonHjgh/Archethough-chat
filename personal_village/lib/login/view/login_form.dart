@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:personal_village/login/bloc/login_bloc.dart';
+import 'package:personal_village/utility/get_it_handler.dart';
 import 'package:personal_village/values/constants.dart';
+import 'package:personal_village/values/routes.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -38,6 +40,18 @@ class LoginForm extends StatelessWidget {
               _PasswordInput(),
               const Padding(padding: EdgeInsets.all(12)),
               _LoginButton(),
+              TextButton(
+                onPressed: () {
+                  pvNavService.pushNamed(forgotPasswordRoute,);
+                },
+                child: Text(
+                  'Forgot Password?',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
