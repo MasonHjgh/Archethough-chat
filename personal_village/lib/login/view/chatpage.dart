@@ -9,9 +9,6 @@ import 'package:personal_village/values/constants.dart';
 import 'package:personal_village/values/routes.dart';
 
 
-void main() {
-  runApp(MyApp());
-}
 
 
 
