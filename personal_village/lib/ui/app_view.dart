@@ -40,10 +40,17 @@ class _AppState extends State<App> {
               listener: (context, state) {
                 switch (state.status) {
                   case AuthenticationStatus.authenticated:
-                    pvNavService.pushNamedAndRemoveUntil(dashboardRoute);
+                    debugPrint("here!!");
+                    pvNavService.pushNamedAndRemoveUntil(dashboardRoute,
+                        args: {"userToken": "12345"});
                     break;
                   case AuthenticationStatus.unauthenticated:
-                    pvNavService.pushNamedAndRemoveUntil(loginRoute);
+                    debugPrint("not this here!!");
+                    if (pvSettingsLogic.hasCompletedOnboarding.value) {
+                      pvNavService.pushNamedAndRemoveUntil(loginRoute);
+                    } else {
+                      pvNavService.pushNamedAndRemoveUntil(onboardingRoute);
+                    }
                     break;
                   case AuthenticationStatus.unknown:
                     pvNavService.pushNamedAndRemoveUntil(loginRoute);
