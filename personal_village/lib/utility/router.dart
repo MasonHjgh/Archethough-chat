@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:personal_village/chat/view/chatpage.dart';
 import 'package:personal_village/dashboard/dashboard.dart';
 import 'package:personal_village/login/login.dart';
-import 'package:personal_village/login/view/chatpage.dart';
 import 'package:personal_village/login/view/forgot_password.dart';
-
 import 'package:personal_village/onboarding/view.dart';
 import 'package:personal_village/ui/fallback_screen.dart';
 import 'package:personal_village/values/routes.dart';
-
 
 Route generateRoute(RouteSettings settings) {
   print(settings.name);
@@ -27,10 +25,9 @@ Route generateRoute(RouteSettings settings) {
     case forgotPasswordRoute:
       return MaterialPageRoute(builder: (context) => ForgotPasswordView());
 
-    case  ChatScreen:
-      return MaterialPageRoute(builder: (context) => ChatScreen(recipientName: 'John') );
-
-
+    case ChatScreen:
+      return MaterialPageRoute(
+          builder: (context) => ChatScreen(recipientName: 'John'));
 
     default:
       return MaterialPageRoute(builder: (context) => FallbackScreen());

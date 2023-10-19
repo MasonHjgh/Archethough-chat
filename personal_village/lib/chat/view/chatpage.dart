@@ -1,16 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:personal_village/utility/get_it_handler.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
-import 'package:personal_village/login/bloc/login_bloc.dart';
-
 import 'package:personal_village/values/constants.dart';
-import 'package:personal_village/values/routes.dart';
-
-
-
-
 
 class ChatScreen extends StatefulWidget {
   final String recipientName;
@@ -38,15 +27,16 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
 
-            CircleAvatar( // Left-aligned profile avatar
-        child: Image.asset(
-          Avatarlogo, // Change this to the path of your image asset
-
-        ),
+            CircleAvatar(
+              // Left-aligned profile avatar
+              child: Image.asset(
+                Avatarlogo, // Change this to the path of your image asset
+              ),
               // Specify the image or decoration for the avatar
               backgroundImage: AssetImage('path_to_avatar_image.png'),
             ),
-            SizedBox(width: 10), // Add spacing between avatar and recipient name
+            SizedBox(width: 10),
+            // Add spacing between avatar and recipient name
             Text(widget.recipientName),
           ],
         ),
@@ -64,7 +54,6 @@ class _ChatScreenState extends State<ChatScreen> {
               // Handle call functionality
             },
           ),
-
           IconButton(
             icon: Icon(Icons.settings), // Add the "settings" icon
             color: Colors.indigo,
@@ -72,7 +61,6 @@ class _ChatScreenState extends State<ChatScreen> {
               // Handle settings functionality
             },
           ),
-
         ],
         backgroundColor: Colors.teal,
       ),
@@ -100,14 +88,12 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 Expanded(
                   child: TextField(
-
                     controller: _messageController,
-                       decoration: InputDecoration(
-                         hintText: 'Type a message',
-                         fillColor: Colors.grey,
-                       ),
+                    decoration: InputDecoration(
+                      hintText: 'Type a message',
+                      fillColor: Colors.grey,
+                    ),
                   ),
-
                 ),
                 IconButton(
                   icon: Icon(Icons.send),
@@ -117,12 +103,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     sendMessage(message);
                   },
                   color: Colors.blueAccent,
-
                 ),
               ],
-
             ),
-
           ),
         ],
       ),
@@ -139,14 +122,5 @@ class _ChatScreenState extends State<ChatScreen> {
 
     // Clear the input field
     _messageController.clear();
-  }
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ChatScreen(recipientName: 'John Doe'),
-    );
   }
 }

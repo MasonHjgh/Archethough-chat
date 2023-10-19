@@ -20,6 +20,7 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     _authenticationRepository = AuthenticationRepository(pvDioManager);
+    _authenticationRepository.getUser();
   }
 
   @override
@@ -40,12 +41,9 @@ class _AppState extends State<App> {
               listener: (context, state) {
                 switch (state.status) {
                   case AuthenticationStatus.authenticated:
-                    debugPrint("here!!");
-                    pvNavService.pushNamedAndRemoveUntil(dashboardRoute,
-                        args: {"userToken": "12345"});
+                    pvNavService.pushNamedAndRemoveUntil(dashboardRoute);
                     break;
                   case AuthenticationStatus.unauthenticated:
-                    debugPrint("not this here!!");
                     if (pvSettingsLogic.hasCompletedOnboarding.value) {
                       pvNavService.pushNamedAndRemoveUntil(loginRoute);
                     } else {

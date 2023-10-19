@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:personal_village/utility/get_it_handler.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({Key? key}) : super(key: key);
@@ -42,6 +43,14 @@ class _DashboardViewState extends State<DashboardView> {
         ),
       ),
     ),
+    Center(
+      child: Container(
+        child: Text(
+          "Screen Four",
+          style: TextStyle(fontSize: 33),
+        ),
+      ),
+    ),
   ];
   @override
   Widget build(BuildContext context) {
@@ -53,9 +62,12 @@ class _DashboardViewState extends State<DashboardView> {
         showSelectedLabels: true,
         backgroundColor: Colors.blue,
         currentIndex: _tabIndex,
-        onTap: (index) => setState(() {
-          _tabIndex = index;
-        }),
+        onTap: (index) {
+          print("What about here? ${pvSettingsLogic.currentUserInfo.value}");
+          setState(() {
+            _tabIndex = index;
+          });
+        },
         items: [
           BottomNavigationBarItem(
               label: "Dashboard",
@@ -80,7 +92,13 @@ class _DashboardViewState extends State<DashboardView> {
               icon: Icon(
                 Icons.notifications_active,
                 size: 30,
-              ))
+              )),
+          BottomNavigationBarItem(
+              label: "Account",
+              icon: Icon(
+                Icons.account_circle,
+                size: 30,
+              )),
         ],
       ),
       body: screens[_tabIndex],

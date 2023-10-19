@@ -14,6 +14,7 @@ class LoginForm extends StatelessWidget {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.status.isFailure) {
+          print("Yo!");
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -42,7 +43,9 @@ class LoginForm extends StatelessWidget {
               _LoginButton(),
               TextButton(
                 onPressed: () {
-                  pvNavService.pushNamed(forgotPasswordRoute,);
+                  pvNavService.pushNamed(
+                    forgotPasswordRoute,
+                  );
                 },
                 child: Text(
                   'Forgot Password?',
@@ -71,7 +74,8 @@ class _UsernameInput extends StatelessWidget {
           onChanged: (username) =>
               context.read<LoginBloc>().add(LoginUsernameChanged(username)),
           decoration: InputDecoration(
-            labelText: 'username',
+            labelText: 'Username',
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
             errorText:
                 state.username.displayError != null ? 'invalid username' : null,
           ),
@@ -81,7 +85,13 @@ class _UsernameInput extends StatelessWidget {
   }
 }
 
-class _PasswordInput extends StatelessWidget {
+class _PasswordInput extends StatefulWidget {
+  @override
+  State<_PasswordInput> createState() => _PasswordInputState();
+}
+
+class _PasswordInputState extends State<_PasswordInput> {
+  bool _hideText = true;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
@@ -91,9 +101,20 @@ class _PasswordInput extends StatelessWidget {
           key: const Key('loginForm_passwordInput_textField'),
           onChanged: (password) =>
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),
-          obscureText: true,
+          obscureText: _hideText,
           decoration: InputDecoration(
-            labelText: 'password',
+            labelText: 'Password',
+            suffixIcon: IconButton(
+              icon: Icon(
+                _hideText ? Icons.visibility : Icons.visibility_off,
+              ),
+              onPressed: () {
+                setState(() {
+                  _hideText = !_hideText;
+                });
+              },
+            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
             errorText:
                 state.password.displayError != null ? 'invalid password' : null,
           ),
@@ -117,7 +138,10 @@ class _LoginButton extends StatelessWidget {
                         context.read<LoginBloc>().add(const LoginSubmitted());
                       }
                     : null,
-                child: const Text('Login'),
+                child: const Text(
+                  'Login',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
               );
       },
     );

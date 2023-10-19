@@ -12,7 +12,7 @@ abstract class IAuthRepository {
   });
   void logOut();
 
-  Future<User> getUser();
+  Future<User?> getUser();
 
   Future<void> clearUser();
 
