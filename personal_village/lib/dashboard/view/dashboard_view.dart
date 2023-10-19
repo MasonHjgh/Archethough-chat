@@ -9,6 +9,7 @@ class DashboardView extends StatefulWidget {
   State<DashboardView> createState() => _DashboardViewState();
 }
 
+
 class _DashboardViewState extends State<DashboardView> {
   int _tabIndex = 0;
 
@@ -37,21 +38,14 @@ class _DashboardViewState extends State<DashboardView> {
         ),
       ),
     ),
-    Center(
-      child: Container(
-        child: Text(
-          "Screen Four",
-          style: TextStyle(fontSize: 33),
-        ),
-      ),
-    ),
+
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: Colors.red[900],
+        unselectedItemColor: Colors.green[900],
         showUnselectedLabels: true,
         showSelectedLabels: true,
         backgroundColor: Colors.blue,
@@ -72,27 +66,22 @@ class _DashboardViewState extends State<DashboardView> {
           BottomNavigationBarItem(
               label: "My Village",
               icon: Icon(
-                Icons.connect_without_contact,
+                Icons.reduce_capacity_outlined,
                 size: 30,
               )),
           BottomNavigationBarItem(
               label: "Knowledge Base",
               icon: Icon(
-                Icons.book,
+                Icons.menu_book_sharp,
                 size: 30,
               )),
           BottomNavigationBarItem(
-              label: "Notifications",
+              label: "Chat",
               icon: Icon(
-                Icons.notifications_active,
+                Icons.chat,
                 size: 30,
               )),
-          BottomNavigationBarItem(
-              label: "Account",
-              icon: Icon(
-                Icons.account_circle,
-                size: 30,
-              )),
+
         ],
       ),
       body: screens[_tabIndex],
