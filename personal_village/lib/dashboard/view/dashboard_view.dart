@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:personal_village/dashboard/view/dashboard_widget.dart';
 import 'package:personal_village/utility/get_it_handler.dart';
 
 class DashboardView extends StatefulWidget {
@@ -12,14 +13,7 @@ class _DashboardViewState extends State<DashboardView> {
   int _tabIndex = 0;
 
   List<Widget> screens = [
-    Center(
-      child: Container(
-        child: Text(
-          "Dashboard Screen",
-          style: TextStyle(fontSize: 33),
-        ),
-      ),
-    ),
+    DashboardWidget(),
     Center(
       child: Container(
           child: Text(
