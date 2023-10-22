@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 class NotificationItem {
   final String title;
   final String message;
@@ -22,59 +20,71 @@ class DashboardWidget extends StatelessWidget {
   final List<NotificationItem> notifications = [
     NotificationItem(
         'New Message', 'You have a new message from John Doe.', '10:00 AM'),
-    NotificationItem('your prescription is ready', 'We can deliver it to you.', 'Yesterday'),
-    NotificationItem('monthly Checkup Due date', 'please adjust a time for your blood test', 'Oct 15'),
+    NotificationItem(
+        'your prescription is ready', 'We can deliver it to you.', 'Yesterday'),
+    NotificationItem('monthly Checkup Due date',
+        'please adjust a time for your blood test', 'Oct 15'),
   ];
 
   final List<ActivityItem> activities = [
-    ActivityItem('John is your close friend now', 'you have updated your relations.', '10:00 AM'),
-    ActivityItem('My Village', 'you have added new caregiver to your village', '12:30 PM'),
+    ActivityItem('John is your close friend now',
+        'you have updated your relations.', '10:00 AM'),
+    ActivityItem('My Village', 'you have added new caregiver to your village',
+        '12:30 PM'),
     ActivityItem('you ordered Groceries', 'you order is on the way', '3:00 PM'),
+    
   ];
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: AppBar(
-        backgroundColor:Colors.amber,
-        centerTitle: true,
+    return SafeArea(
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            //background: Ink.image(image: 'assets/images/LightLogo.png')
+            expandedHeight: 250.0,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.asset('assets/images/LightLogo.png'),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  //Icon(
+                    // Icons.waving_hand, // Add an Icon widget
 
-      ),
-      body: Column(
-        children: [
-          SizedBox(height: 5),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-           child: Center(
-             child: Text(
-              'My Dashboard',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                 // color: Colors.white,
+                 // ),
+                  //SizedBox(width: 1),
+                  Text(
+                      "Hey John!  ",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18.0),
+                  ),
+
+
+                ],
               ),
-           ),
+
+            ),
           ),
-            SizedBox(height:20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
                 child: Text(
-                  'Notifications',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  'My Dashboard',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
-            SizedBox(height: 5),
-            Expanded(
-              child: ListView.builder(
-                itemCount: notifications.length,
-                itemBuilder: (context, index) {
-                  return NotificationCard(notification: notifications[index]);
-                },
-              ),
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          ),
+
+
+
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -83,14 +93,37 @@ class DashboardWidget extends StatelessWidget {
                 ),
               ),
             ),
-          ],
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) {
+              return ActivityCard(activity: activities[index]);
+            }, childCount: activities.length),
+          ),
 
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Recent Notifications',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) {
+              return NotificationCard(notification: notifications[index]);
+            }, childCount: notifications.length),
+          ),
 
-       ),
-
+        ],
+      ),
     );
   }
 }
+
 class NotificationCard extends StatelessWidget {
   final NotificationItem notification;
 
