@@ -15,17 +15,16 @@ class _OnboardingState extends State<Onboarding> {
   int _currentIndex = 0;
 
   final List<String> _onboardingContent = [
-    'Your safety, our priority: welcome to Personal Village!',
+    'Your safety, our priority:\n Welcome to Personal Village!',
     'Experience a safer and more connected lifestyle',
-    'Access essential services effortlessly.',
-    'Stay secure with Privacy and Security Shield.',
-    'Join a community dedicated to enhancing your well-being.',
-    'Simplify caregiving with the tap of a button.',
+    'Access essential services effortlessly',
+    'Simplify caregiving \n with the tap of a button.',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       floatingActionButton: _currentIndex == _onboardingContent.length - 1
           ? FloatingActionButton(
         child: Icon(Icons.arrow_forward_rounded),
@@ -35,52 +34,59 @@ class _OnboardingState extends State<Onboarding> {
         },
       )
           : null,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CarouselSlider(
-              items: _onboardingContent.map((item) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            item,
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/LightLogo.png')
+            )
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CarouselSlider(
+                items: _onboardingContent.map((item) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              item,
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 30.0),
-                          // You can add images or icons related to onboarding content here
-                        ],
-                      ),
-                    );
+                            SizedBox(height: 10.0),
+                            // You can add images or icons related to onboarding content here
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }).toList(),
+                options: CarouselOptions(
+                  height: 100.0,
+                  viewportFraction: 1.0,
+                  onPageChanged: (index, _) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
                   },
-                );
-              }).toList(),
-              options: CarouselOptions(
-                height: 400.0,
-                viewportFraction: 1.0,
-                onPageChanged: (index, _) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
+                ),
               ),
-            ),
-            SizedBox(height: 20.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildPageIndicator(),
-            ),
-          ],
+              SizedBox(height: 120.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _buildPageIndicator(),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -100,7 +106,7 @@ class _OnboardingState extends State<Onboarding> {
       width: 10.0,
       margin: EdgeInsets.symmetric(horizontal: 5.0),
       decoration: BoxDecoration(
-        color: isActive ? Colors.amber: Colors.grey,
+        color: isActive ? Colors.red: Colors.grey,
         borderRadius: BorderRadius.circular(5.0),
       ),
     );
