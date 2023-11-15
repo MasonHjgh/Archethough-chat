@@ -44,6 +44,7 @@ dependencies:
   formz: ^0.6.1
   flutter_native_splash: ^2.3.3
   shared_preferences: ^2.2.2
+  graphview: ^1.2.0
 
 dev_dependencies:
   flutter_test:
