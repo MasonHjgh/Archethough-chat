@@ -3,7 +3,7 @@ import 'package:personal_village/dashboard/view/dashboard_widget.dart';
 import 'package:personal_village/knowledge_base/view/knowledge_base.dart';
 import 'package:personal_village/my_village/my_village.dart';
 import 'package:personal_village/utility/get_it_handler.dart';
-
+import 'package:personal_village/dashboard/view/knowlwdgeBase_widget.dart';
 class DashboardView extends StatefulWidget {
   const DashboardView({Key? key}) : super(key: key);
 
@@ -29,14 +29,24 @@ class _DashboardViewState extends State<DashboardView> {
       Center(
         child: Container(
           child: Text(
-            "Coming Soon...",
-            style: TextStyle(fontSize: 33),
-          ),
-        ),
-      ),
-      Center(
-        child: Container(
-          child: Text("Account"),
+        "Screen Two",
+        style: TextStyle(fontSize: 33),
+      )),
+    ),
+    KnowledgeBaseScreen(),
+    // Center(
+    //   child: Container(
+    //     child: Text(
+    //       "Screen Three",
+    //       style: TextStyle(fontSize: 33),
+    //     ),
+    //   ),
+    // ),
+    Center(
+      child: Container(
+        child: Text(
+          "Screen Four",
+          style: TextStyle(fontSize: 33),
         ),
       )
     ];
