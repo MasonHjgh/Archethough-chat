@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:personal_village/dashboard/view/dashboard_widget.dart';
+import 'package:personal_village/knowledge_base/view/knowledge_base.dart';
+import 'package:personal_village/my_village/my_village.dart';
 import 'package:personal_village/utility/get_it_handler.dart';
 import 'package:personal_village/dashboard/view/knowlwdgeBase_widget.dart';
 class DashboardView extends StatefulWidget {
@@ -9,14 +11,23 @@ class DashboardView extends StatefulWidget {
   State<DashboardView> createState() => _DashboardViewState();
 }
 
-
 class _DashboardViewState extends State<DashboardView> {
   int _tabIndex = 0;
+  late List<Widget> _screens;
 
-  List<Widget> screens = [
-    DashboardWidget(),
-    Center(
-      child: Container(
+  @override
+  void initState() {
+    super.initState();
+    _setScreens();
+  }
+
+  void _setScreens() {
+    _screens = <Widget>[
+      DashboardWidget(),
+      MyVillage(),
+      KnowledgeBase(),
+      Center(
+        child: Container(
           child: Text(
         "Screen Two",
         style: TextStyle(fontSize: 33),
@@ -37,19 +48,28 @@ class _DashboardViewState extends State<DashboardView> {
           "Screen Four",
           style: TextStyle(fontSize: 33),
         ),
-      ),
-    ),
+      )
+    ];
+  }
 
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.red.shade300,
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.red[900],
-        unselectedItemColor: Colors.green[900],
+        selectedItemColor: Colors.white,
+        selectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+        unselectedItemColor: Colors.white70,
         showUnselectedLabels: true,
         showSelectedLabels: true,
-        backgroundColor: Colors.blue,
+        unselectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.w200,
+          fontSize: 10,
+        ),
+        type: BottomNavigationBarType.shifting,
+        backgroundColor: Colors.red.shade300,
         currentIndex: _tabIndex,
         onTap: (index) {
           print("What about here? ${pvSettingsLogic.currentUserInfo.value}");
@@ -59,33 +79,48 @@ class _DashboardViewState extends State<DashboardView> {
         },
         items: [
           BottomNavigationBarItem(
-              label: "Dashboard",
-              icon: Icon(
-                Icons.home,
-                size: 30,
-              )),
+            label: "Dashboard",
+            icon: Icon(
+              Icons.home,
+              size: 30,
+            ),
+            backgroundColor: Color(0xFF74393a),
+          ),
           BottomNavigationBarItem(
-              label: "My Village",
-              icon: Icon(
-                Icons.reduce_capacity_outlined,
-                size: 30,
-              )),
+            label: "My Village",
+            icon: Icon(
+              Icons.reduce_capacity_outlined,
+              size: 30,
+            ),
+            backgroundColor: Color(0xFF74393a),
+          ),
           BottomNavigationBarItem(
-              label: "Knowledge Base",
-              icon: Icon(
-                Icons.menu_book_sharp,
-                size: 30,
-              )),
+            label: "Knowledge Base",
+            icon: Icon(
+              Icons.menu_book_sharp,
+              size: 30,
+            ),
+            backgroundColor: Color(0xFF74393a),
+          ),
           BottomNavigationBarItem(
-              label: "Chat",
-              icon: Icon(
-                Icons.chat,
-                size: 30,
-              )),
-
+            label: "Chat",
+            icon: Icon(
+              Icons.chat,
+              size: 30,
+            ),
+            backgroundColor: Color(0xFF74393a),
+          ),
+          BottomNavigationBarItem(
+            label: "Account",
+            icon: Icon(
+              Icons.person,
+              size: 30,
+            ),
+            backgroundColor: Color(0xFF74393a),
+          )
         ],
       ),
-      body: screens[_tabIndex],
+      body: SafeArea(child: _screens[_tabIndex]),
     );
   }
 }

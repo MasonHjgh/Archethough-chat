@@ -16,8 +16,19 @@ class ActivityItem {
   ActivityItem(this.title, this.description, this.time);
 }
 
-class DashboardWidget extends StatelessWidget {
-  final List<NotificationItem> notifications = [
+class DashboardWidget extends StatefulWidget {
+  @override
+  State<DashboardWidget> createState() => _DashboardWidgetState();
+}
+
+class _DashboardWidgetState extends State<DashboardWidget> {
+  List<NotificationItem> notifications = [
+    NotificationItem(
+        'New Message', 'You have a new message from John Doe.', '10:00 AM'),
+    NotificationItem(
+        'your prescription is ready', 'We can deliver it to you.', 'Yesterday'),
+    NotificationItem('monthly Checkup Due date',
+        'please adjust a time for your blood test', 'Oct 15'),
     NotificationItem(
         'New Message', 'You have a new message from John Doe.', '10:00 AM'),
     NotificationItem(
@@ -26,99 +37,92 @@ class DashboardWidget extends StatelessWidget {
         'please adjust a time for your blood test', 'Oct 15'),
   ];
 
-  final List<ActivityItem> activities = [
+  List<ActivityItem> activities = [
+    ActivityItem('Jn is your close friend now',
+        'you have updated your relations.', '10:00 AM'),
+    ActivityItem('My Village', 'you have added new caregiver to your village',
+        '12:30 PM'),
+    ActivityItem('you ordered Groceries', 'you order is on the way', '3:00 PM'),
     ActivityItem('John is your close friend now',
         'you have updated your relations.', '10:00 AM'),
     ActivityItem('My Village', 'you have added new caregiver to your village',
         '12:30 PM'),
     ActivityItem('you ordered Groceries', 'you order is on the way', '3:00 PM'),
-    
   ];
 
   @override
   Widget build(BuildContext context) {
+    print(activities[0].title);
     return SafeArea(
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            backgroundColor: Colors.white,
-            //background: Ink.image(image: 'assets/images/LightLogo.png')
-            expandedHeight: 250.0,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset('assets/images/LightLogo.png'),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //Icon(
-                    // Icons.waving_hand, // Add an Icon widget
-
-                 // color: Colors.white,
-                 // ),
-                  //SizedBox(width: 1),
-                  Text(
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: Colors.white,
+              //background: Ink.image(image: 'assets/images/LightLogo.png')
+              expandedHeight: 250.0,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Image.asset('assets/images/LightLogo.png'),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
                       "Hey John!  ",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18.0),
+                      style: TextStyle(color: Colors.black, fontSize: 18.0),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(
+                  child: Text(
+                    'My Dashboard',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-
-
-                ],
-              ),
-
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: Text(
-                  'My Dashboard',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
-          ),
-
-
-
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Recent Activities',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 10.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Recent Activities',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ),
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              return ActivityCard(activity: activities[index]);
-            }, childCount: activities.length),
-          ),
-
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Recent Notifications',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return ActivityCard(activity: activities[index]);
+              }, childCount: activities.length),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 10.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Recent Notifications',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ),
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              return NotificationCard(notification: notifications[index]);
-            }, childCount: notifications.length),
-          ),
-
-        ],
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return NotificationCard(notification: notifications[index]);
+              }, childCount: notifications.length),
+            ),
+          ],
+        ),
       ),
     );
   }
