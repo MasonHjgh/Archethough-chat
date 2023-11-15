@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:personal_village/account/view/account.dart';
 import 'package:personal_village/dashboard/view/dashboard_widget.dart';
-import 'package:personal_village/dashboard/view/knowlwdgeBase_widget.dart';
 import 'package:personal_village/knowledge_base/view/knowledge_base.dart';
 import 'package:personal_village/my_village/my_village.dart';
 import 'package:personal_village/utility/get_it_handler.dart';
@@ -34,23 +34,7 @@ class _DashboardViewState extends State<DashboardView> {
           style: TextStyle(fontSize: 33),
         )),
       ),
-      KnowledgeBaseScreen(),
-      // Center(
-      //   child: Container(
-      //     child: Text(
-      //       "Screen Three",
-      //       style: TextStyle(fontSize: 33),
-      //     ),
-      //   ),
-      // ),
-      Center(
-        child: Container(
-          child: Text(
-            "Screen Four",
-            style: TextStyle(fontSize: 33),
-          ),
-        ),
-      )
+      AccountView()
     ];
   }
 

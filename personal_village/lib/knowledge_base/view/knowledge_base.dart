@@ -1,56 +1,168 @@
 import 'package:flutter/material.dart';
+import 'package:personal_village/knowledge_base/widgets/sliver_search_app_bar.dart';
 
 class KnowledgeBase extends StatelessWidget {
   const KnowledgeBase({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            backgroundColor: Colors.transparent,
-            //background: Ink.image(image: 'assets/images/LightLogo.png')
-            expandedHeight: 250.0,
-            pinned: true,
-            actions: [
-              IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {},
-              )
-            ],
-            flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(
-                "assets/images/library.jpg",
-                fit: BoxFit.fill,
-              ),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+    return CustomScrollView(
+      slivers: [
+        SliverPersistentHeader(delegate: SliverSearchAppBar()),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.width * 0.7,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: GridView(
+                scrollDirection: Axis.horizontal,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.9,
+                  mainAxisSpacing: 12.0,
+                  crossAxisSpacing: 12.0,
+                ),
                 children: [
-                  Flexible(
-                    child: Text(
-                      "Welcome to your Knowledge Library, John!  ",
+                  HorizontalIcon(
+                    Icon(
+                      Icons.add,
+                      size: 66,
+                      color: Color(0xFFC60000),
+                    ),
+                    Text(
+                      "Emergency Services",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0),
+                        color: Color(0xFFC60000),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
+                  HorizontalIcon(
+                    Icon(
+                      Icons.medical_information,
+                      size: 66,
+                      color: Color(0xFF00A36C),
+                    ),
+                    Text(
+                      "First Aid Info",
+                      style: TextStyle(
+                          color: Color(0xFF00A36C),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  HorizontalIcon(
+                    Icon(
+                      Icons.person_outline,
+                      size: 66,
+                      color: Colors.black,
+                    ),
+                    Text(
+                      "Contact Village Members",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  HorizontalIcon(
+                    Icon(
+                      Icons.add,
+                      size: 66,
+                      color: Color(0xFFC60000),
+                    ),
+                    Text(
+                      "Emergency Services",
+                      style: TextStyle(
+                          color: Color(0xFFC60000),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  HorizontalIcon(
+                    Icon(
+                      Icons.medical_information,
+                      size: 66,
+                      color: Color(0xFF00A36C),
+                    ),
+                    Text(
+                      "First Aid Info",
+                      style: TextStyle(
+                          color: Color(0xFF00A36C),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  HorizontalIcon(
+                    Icon(
+                      Icons.person_outline,
+                      size: 66,
+                      color: Colors.black,
+                    ),
+                    Text(
+                      "Contact Village Members",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
                 ],
               ),
             ),
           ),
-          SliverList(
-              delegate: SliverChildListDelegate([
-            KnowledgeBaseItem(),
-            KnowledgeBaseItem(),
-            KnowledgeBaseItem(),
-            KnowledgeBaseItem(),
-            KnowledgeBaseItem(),
-            KnowledgeBaseItem(),
-            KnowledgeBaseItem(),
-            KnowledgeBaseItem(),
-          ]))
+        ),
+        SliverList(
+            delegate: SliverChildListDelegate([
+          Padding(
+            padding: EdgeInsets.only(top: 28, left: 10, bottom: 3),
+            child: Text(
+              "App How-To's",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          KnowledgeBaseItem(),
+          KnowledgeBaseItem(),
+          KnowledgeBaseItem(),
+          KnowledgeBaseItem(),
+          KnowledgeBaseItem(),
+          KnowledgeBaseItem(),
+          KnowledgeBaseItem(),
+          KnowledgeBaseItem(),
+        ]))
+      ],
+    );
+  }
+}
+
+class HorizontalIcon extends StatelessWidget {
+  const HorizontalIcon(this.icon, this.text, {Key? key}) : super(key: key);
+  final Widget icon;
+  final Widget text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 3),
+      margin: EdgeInsets.symmetric(horizontal: 6),
+      decoration: BoxDecoration(
+          color: Color(0xFFF0F0F0), borderRadius: BorderRadius.circular(16)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          icon,
+          Flexible(child: text),
         ],
       ),
     );

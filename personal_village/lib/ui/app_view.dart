@@ -39,9 +39,10 @@ class _AppState extends State<App> {
           builder: (context, child) {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
               listener: (context, state) {
+                print("Current state: $state");
                 switch (state.status) {
                   case AuthenticationStatus.authenticated:
-                    pvNavService.pushNamedAndRemoveUntil(onboardingRoute);
+                    pvNavService.pushNamedAndRemoveUntil(dashboardRoute);
                     break;
                   case AuthenticationStatus.unauthenticated:
                     if (pvSettingsLogic.hasCompletedOnboarding.value) {

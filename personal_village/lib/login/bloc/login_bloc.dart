@@ -15,6 +15,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginUsernameChanged>(_onUsernameChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onSubmitted);
+    on<LogoutSubmitted>(_onLogoutSubmitted);
   }
 
   final AuthenticationRepository _authenticationRepository;
@@ -61,5 +62,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
       }
     }
+  }
+
+  Future<void> _onLogoutSubmitted(
+    event,
+    Emitter<LoginState> emit,
+  ) async {
+    _authenticationRepository.logOut();
   }
 }

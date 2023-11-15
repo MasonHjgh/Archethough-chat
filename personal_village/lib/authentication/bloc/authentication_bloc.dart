@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:personal_village/models/common/user.dart';
 import 'package:personal_village/repositories/auth/authentication_repository.dart';
+import 'package:personal_village/utility/get_it_handler.dart';
+import 'package:personal_village/values/routes.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
@@ -55,11 +57,14 @@ class AuthenticationBloc
     }
   }
 
-  void _onAuthenticationLogoutRequested(
+  Future<void> _onAuthenticationLogoutRequested(
     AuthenticationLogoutRequested event,
     Emitter<AuthenticationState> emit,
-  ) {
+  ) async {
+    print("Does this print??");
     _authenticationRepository.logOut();
+    pvNavService.pushNamedAndRemoveUntil(loginRoute);
+    return emit(AuthenticationState.unauthenticated());
   }
 
   Future<User?> _tryGetUser() async {

@@ -15,6 +15,8 @@ class _MyVillageState extends State<MyVillage>
   TransformationController viewController = TransformationController();
   late AnimationController _animationController;
   late Animation<Matrix4> _mapAnimation;
+  bool showInfoBar = false;
+  int tappedPerson = 0;
 
   @override
   void initState() {
@@ -121,7 +123,11 @@ class _MyVillageState extends State<MyVillage>
                           int id = node.key?.value as int;
                           if (id == 0) {
                             return CircleAvatar(
-                              child: Text("ME"),
+                              child: CircleAvatar(
+                                child: Image.asset(
+                                  "assets/images/avatar.png",
+                                ),
+                              ),
                             );
                           } else {
                             return GestureDetector(
@@ -134,11 +140,16 @@ class _MyVillageState extends State<MyVillage>
                                     node.x - (canvasWidth / 2),
                                     node.y - (canvasHeight / 2));
 
-                                _animateToPosition(targetPosition);
+                                // _animateToPosition(targetPosition);
+                                setState(() {
+                                  tappedPerson = id;
+                                  if (!showInfoBar) showInfoBar = true;
+                                });
                               },
                               child: CircleAvatar(
-                                child: Text(id.toString()),
-                              ),
+                                  backgroundImage: AssetImage(
+                                "assets/images/p3.jpg",
+                              )),
                             );
                           }
                         },
@@ -146,8 +157,9 @@ class _MyVillageState extends State<MyVillage>
                     )),
               ),
               Positioned(
-                top: 0,
                 left: 0,
+                right: 0,
+                top: 40,
                 child: Text(
                   "My Village",
                   style: TextStyle(
@@ -155,8 +167,83 @@ class _MyVillageState extends State<MyVillage>
                     fontWeight: FontWeight.w500,
                     color: Colors.white,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
+              AnimatedPositioned(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.red.shade300,
+                  height: 80,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: AssetImage(
+                          "assets/images/p2.jpg",
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Person $tappedPerson",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            "Brother",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          )
+                        ],
+                      ),
+                      CircleAvatar(
+                        backgroundColor: Colors.green,
+                        child: Icon(Icons.call),
+                      ),
+                      CircleAvatar(
+                        backgroundColor: Colors.white38,
+                        child: Icon(
+                          Icons.mail,
+                          color: Colors.white,
+                        ),
+                      ),
+                      CircleAvatar(
+                        backgroundColor: Colors.teal,
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.white,
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.close,
+                          color: Colors.white,
+                          size: 35,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            showInfoBar = false;
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                ),
+                duration: Duration(milliseconds: 300),
+                bottom: showInfoBar ? 0 : -80,
+              )
             ],
           )
         : Center(
