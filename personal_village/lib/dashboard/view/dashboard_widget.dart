@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:personal_village/utility/get_it_handler.dart';
 class NotificationItem {
   final String title;
   final String message;
@@ -66,7 +66,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "Hey John!  ",
+                    "Hey ${pvSettingsLogic.currentUserInfo.value.userfullname}!  ",
                     style: TextStyle(color: Colors.black, fontSize: 18.0),
                   ),
                 ],

@@ -70,7 +70,11 @@ class AuthenticationBloc
   Future<User?> _tryGetUser() async {
     try {
       final user = await _authenticationRepository.getUser();
-      return user;
+      if (user!=null){
+      return user;}
+      else{
+        return null;
+      }
     } catch (_) {
       return null;
     }

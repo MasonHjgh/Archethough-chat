@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:personal_village/authentication/authentication.dart';
-
+import 'package:personal_village/utility/get_it_handler.dart';
 class AccountView extends StatelessWidget {
   const AccountView({Key? key}) : super(key: key);
 
@@ -47,7 +47,7 @@ class AccountView extends StatelessWidget {
               left: 0,
               right: -20,
               child: Text(
-                "John Doe",
+               " ${pvSettingsLogic.currentUserInfo.value.userfullname}",
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

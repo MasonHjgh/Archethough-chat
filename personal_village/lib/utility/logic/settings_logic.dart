@@ -14,7 +14,7 @@ class SettingsLogic with ThrottledSaveLoadMixin {
   @override
   void copyFromJson(Map<String, dynamic> value) {
     hasCompletedOnboarding.value = value['hasCompletedOnboarding'] ?? false;
-    currentUserInfo.value = User.fromJson(value['userInfo'] ?? {});
+    // currentUserInfo.value = User.fromJson(value['userInfo'] ?? {});
   }
 
   @override

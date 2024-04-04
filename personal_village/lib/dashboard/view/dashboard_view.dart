@@ -28,7 +28,7 @@ class _DashboardViewState extends State<DashboardView> {
       DashboardWidget(),
       MyVillage(),
       KnowledgeBase(),
-      ChatScreen(recipientName: 'John')
+      ChatScreen(recipientName: pvSettingsLogic.currentUserInfo.value.userfullname)
       ,
       AccountView()
     ];

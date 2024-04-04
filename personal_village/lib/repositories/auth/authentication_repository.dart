@@ -19,7 +19,7 @@ class AuthenticationRepository extends IAuthRepository {
 
   Stream<AuthenticationStatus> get status async* {
     //TODO: Update fetching local current user status from here + token
-    await Future<void>.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(seconds: 3));
     yield AuthenticationStatus.unauthenticated;
     yield* _controller.stream;
   }
@@ -78,9 +78,12 @@ Future<bool> logIn({
 
     if (response.statusCode == 200) {
       // Login successful
-          _controller.add(AuthenticationStatus.authenticated);
+          print(response);
+          final data = jsonDecode(response.body);
+          _user=User.fromJson(data);
           // _user = User("123", username: );
-          // setCurrentUser();
+          setCurrentUser();
+          _controller.add(AuthenticationStatus.authenticated);
       return true;
     } else {
       // Login failed
