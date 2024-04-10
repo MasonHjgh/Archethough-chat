@@ -7,6 +7,7 @@ import 'package:personal_village/onboarding/view.dart';
 import 'package:personal_village/ui/fallback_screen.dart';
 import 'package:personal_village/values/routes.dart';
 import 'package:personal_village/utility/get_it_handler.dart';
+import 'package:personal_village/search/view/search_screen.dart';
 Route generateRoute(RouteSettings settings) {
   print(settings.name);
   switch (settings.name) {
@@ -24,7 +25,8 @@ Route generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => LoginPage());
     case forgotPasswordRoute:
       return MaterialPageRoute(builder: (context) => ForgotPasswordView());
-
+  case searchScreenRoute:
+      return MaterialPageRoute(builder: (context) => SearchScreen());
     case ChatScreen:
       return MaterialPageRoute(
           builder: (context) => ChatScreen(recipientName: "${pvSettingsLogic.currentUserInfo.value.userfullname}"));

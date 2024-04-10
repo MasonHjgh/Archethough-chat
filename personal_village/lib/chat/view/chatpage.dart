@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:personal_village/utility/get_it_handler.dart';
 import 'package:personal_village/values/constants.dart';
-
+import 'package:personal_village/values/routes.dart';
 class ChatScreen extends StatefulWidget {
   final String recipientName;
 
@@ -44,7 +45,9 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-              // Handle search functionality
+                  pvNavService.pushNamed(
+                    searchScreenRoute,
+                  );
             },
           ),
           IconButton(

@@ -81,7 +81,6 @@ Future<bool> logIn({
           print(response);
           final data = jsonDecode(response.body);
           _user=User.fromJson(data);
-          // _user = User("123", username: );
           setCurrentUser();
           _controller.add(AuthenticationStatus.authenticated);
       return true;
