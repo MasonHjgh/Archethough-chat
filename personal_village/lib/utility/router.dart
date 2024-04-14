@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:personal_village/chat/view/chatpage.dart';
+import 'package:personal_village/chat/view/Conversations.dart';
 import 'package:personal_village/dashboard/dashboard.dart';
 import 'package:personal_village/login/login.dart';
 import 'package:personal_village/login/view/forgot_password.dart';
@@ -27,9 +28,12 @@ Route generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => ForgotPasswordView());
   case searchScreenRoute:
       return MaterialPageRoute(builder: (context) => SearchScreen());
-    case ChatScreen:
+    case conversationsScreen:
       return MaterialPageRoute(
-          builder: (context) => ChatScreen(recipientName: "${pvSettingsLogic.currentUserInfo.value.userfullname}"));
+          builder: (context) => ConversationsScreen());
+    // case ChatScreen:
+    //   return MaterialPageRoute(
+    //       builder: (context) => ChatScreen(recipientName: "${pvSettingsLogic.currentUserInfo.value.userfullname}"));
 
     default:
       return MaterialPageRoute(builder: (context) => FallbackScreen());

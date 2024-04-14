@@ -21,20 +21,13 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         title: Row(
           children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                // Handle navigating back
-              },
-            ),
-
             CircleAvatar(
               // Left-aligned profile avatar
               child: Image.asset(
                 Avatarlogo, // Change this to the path of your image asset
               ),
               // Specify the image or decoration for the avatar
-              backgroundImage: AssetImage('path_to_avatar_image.png'),
+              backgroundImage: AssetImage('assets/images/avatar.png'),
             ),
             SizedBox(width: 10),
             // Add spacing between avatar and recipient name

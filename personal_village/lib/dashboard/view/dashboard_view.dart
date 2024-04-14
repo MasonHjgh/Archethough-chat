@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:personal_village/account/view/account.dart';
 import 'package:personal_village/chat/chat.dart';
+
+import 'package:personal_village/chat/view/Conversations.dart';
 import 'package:personal_village/dashboard/view/dashboard_widget.dart';
 import 'package:personal_village/knowledge_base/view/knowledge_base.dart';
 import 'package:personal_village/my_village/my_village.dart';
@@ -28,8 +30,9 @@ class _DashboardViewState extends State<DashboardView> {
       DashboardWidget(),
       MyVillage(),
       KnowledgeBase(),
-      ChatScreen(recipientName: pvSettingsLogic.currentUserInfo.value.userfullname)
-      ,
+      ConversationsScreen(),
+      // ChatScreen(recipientName: pvSettingsLogic.currentUserInfo.value.userfullname)
+      
       AccountView()
     ];
   }
