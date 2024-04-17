@@ -16,7 +16,17 @@ class Conversation {
 
 class ConversationsScreen extends StatelessWidget {
   final List<Conversation> conversations = [
-    // Conversation data...
+    Conversation(
+      contactName: 'John Doe',
+      lastMessage: 'Hey there!',
+      timestamp: DateTime.now().subtract(Duration(minutes: 5)),
+    ),
+    Conversation(
+      contactName: 'Alice Smith',
+      lastMessage: 'What are you up to?',
+      timestamp: DateTime.now().subtract(Duration(hours: 2)),
+    ),
+    // Add more conversation items as needed
   ];
 
   @override
