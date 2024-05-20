@@ -1,7 +1,10 @@
-import 'dart:convert'; // Importing this for JSON encoding
-import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'filter_dialog.dart'; // Importing the FilterDialog from filter_dialog.dart
+import 'package:http/http.dart' as http;
+import 'package:personal_village/utility/get_it_handler.dart';
+import 'package:personal_village/values/constants.dart';
+import 'create_room_dialog.dart'; // Importing the CreateRoomDialog
+import 'filter_dialog.dart'; // Importing the FilterDialog
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -58,10 +61,38 @@ class _SearchScreenState extends State<SearchScreen> {
             child: ListView.builder(
               itemCount: _items.length,
               itemBuilder: (BuildContext context, int index) {
-                // Use _items[index] to access each item in the list
-                return ListTile(
-                  title: Text(_items[index][
-                      'title']), // Assuming 'title' is the key for your item title
+                return GestureDetector(
+                  onTap: () {
+                    _showCreateRoomDialog(context, _items[index]['id']);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 223, 69, 69),
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(1),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        _items[index]['userFullName'],
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _items[index]['userEmail'],
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            _items[index]['userHandle'],
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 );
               },
             ),
@@ -110,38 +141,35 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _startSearch() async {
-    // Constructing your search query
-    Map<String, dynamic> searchData = {
-      'keyword': _searchText,
-      'filters': _selectedFilterValues,
-    };
-
-    // Sending HTTP POST request with search data
     try {
-      final response = await http.post(
-        Uri.parse('YOUR_API_ENDPOINT_HERE'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
+      String loginurl = apiUrl + "/user/search/" + _searchText;
+      final response = await http.get(
+        Uri.parse(loginurl),
+        headers: {
+          'Authorization':
+              'Bearer ${pvSettingsLogic.currentUserInfo.value.accesstoken}',
         },
-        body: jsonEncode(searchData),
       );
 
-      // Handle response here
       if (response.statusCode == 200) {
-        // Successfully received data, handle it here
         final responseData = jsonDecode(response.body);
         setState(() {
-          // Update your item list with the data received from the response
-          _items = responseData[
-              'items']; // Assuming 'items' is the key for your item list
+          _items = List<Map<String, dynamic>>.from(responseData['data']);
         });
       } else {
-        // Error occurred, handle it here
         print('HTTP error: ${response.statusCode}');
       }
     } catch (e) {
-      // Error occurred, handle it here
       print('Error: $e');
     }
+  }
+
+  void _showCreateRoomDialog(BuildContext context, String itemId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CreateRoomDialog(itemId: itemId);
+      },
+    );
   }
 }

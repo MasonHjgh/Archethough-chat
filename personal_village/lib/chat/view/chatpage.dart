@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:personal_village/models/common/user.dart';
 import 'package:personal_village/utility/get_it_handler.dart';
 import 'package:personal_village/values/constants.dart';
 import 'package:personal_village/values/routes.dart';
 
-class ChatScreen extends StatefulWidget {
-  final String recipientName;
+// Define a Room class to represent the room object
+class Room {
+  final String id;
+  final String name;
+  final List<String> msg;
+  // final List<String> participants;
 
-  ChatScreen({required this.recipientName});
+  Room({
+    required this.id,
+    required this.name,
+    required this.msg,
+    // required this.participants,
+  });
+}
+
+class ChatScreen extends StatefulWidget {
+  final Room room;
+
+  ChatScreen({required this.room});
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -17,22 +33,25 @@ class _ChatScreenState extends State<ChatScreen> {
   List<String> messages = [];
 
   @override
+  void initState() {
+    super.initState();
+    messages = widget.room.msg; // Initialize messages with existing messages
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: <Widget>[
             CircleAvatar(
-              // Left-aligned profile avatar
               child: Image.asset(
-                Avatarlogo, // Change this to the path of your image asset
+                Avatarlogo,
               ),
-              // Specify the image or decoration for the avatar
               backgroundImage: AssetImage('assets/images/avatar.png'),
             ),
             SizedBox(width: 10),
-            // Add spacing between avatar and recipient name
-            Text(widget.recipientName),
+            Text(widget.room.name),
           ],
         ),
         actions: <Widget>[
@@ -52,7 +71,7 @@ class _ChatScreenState extends State<ChatScreen> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.settings), // Add the "settings" icon
+            icon: Icon(Icons.settings),
             color: Colors.indigo,
             onPressed: () {
               // Handle settings functionality
@@ -95,7 +114,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 IconButton(
                   icon: Icon(Icons.send),
                   onPressed: () {
-                    // Send the message to the recipient, and update the UI
+                    // Send the message to the room, and update the UI
                     String message = _messageController.text;
                     sendMessage(message);
                   },
@@ -113,6 +132,12 @@ class _ChatScreenState extends State<ChatScreen> {
     // In a real application, you would send the message to the recipient
     // and update the chat history, either by using a database or a real-time messaging service.
 
+    // Here, you would send the message to the recipient using the appropriate method
+
+    // For example:
+    // chatService.sendMessage(widget.room.id, message);
+
+    // Instead of directly adding the message to the room's message history
     setState(() {
       messages.add(message);
     });
