@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -44,19 +43,35 @@ class ConversationsScreen extends StatefulWidget {
   _ConversationsScreenState createState() => _ConversationsScreenState();
 }
 
-class _ConversationsScreenState extends State<ConversationsScreen> {
+class _ConversationsScreenState extends State<ConversationsScreen> with WidgetsBindingObserver {
   List<Conversation> conversations = [];
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    // Replace 'your_search_string' and 'your_token' with the actual search term and token
+    WidgetsBinding.instance.addObserver(this);
     _fetchConversations();
   }
 
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _fetchConversations();
+    }
+  }
+
   Future<void> _fetchConversations() async {
-    String loginurl=apiUrl+"/room/search/"+ pvSettingsLogic.currentUserInfo.value.id;
+    setState(() {
+      _isLoading = true;
+    });
+    String loginurl = apiUrl + "/room/search/" + pvSettingsLogic.currentUserInfo.value.id;
     final response = await http.get(
       Uri.parse(loginurl),
       headers: {
@@ -88,27 +103,30 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: conversations.length,
-              itemBuilder: (context, index) {
-                final conversation = conversations[index];
-                return ListTile(
-                  leading: CircleAvatar(
-                    child: Text(conversation.roomName[0]),
-                  ),
-                  title: Text(conversation.roomName),
-                  subtitle: Text(conversation.description),
-                  onTap: () {
-                    // Navigate to the ChatScreen when the item is tapped
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChatScreen(room: Room(id: conversation.id, name: conversation.roomName, msg:[], ),),
-                      ),
-                    );
-                  },
-                );
-              },
+          : RefreshIndicator(
+              onRefresh: _fetchConversations,
+              child: ListView.builder(
+                itemCount: conversations.length,
+                itemBuilder: (context, index) {
+                  final conversation = conversations[index];
+                  return ListTile(
+                    leading: CircleAvatar(
+                      child: Text(conversation.roomName[0]),
+                    ),
+                    title: Text(conversation.roomName),
+                    subtitle: Text(conversation.description),
+                    onTap: () {
+                      // Navigate to the ChatScreen when the item is tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatScreen(room: Room(id: conversation.id, name: conversation.roomName, msg: [])),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

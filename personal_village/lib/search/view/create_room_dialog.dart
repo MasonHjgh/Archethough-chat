@@ -23,10 +23,7 @@ class _CreateRoomDialogState extends State<CreateRoomDialog> {
 
     Map<String, dynamic> requestBody = {
       "author_id": pvSettingsLogic.currentUserInfo.value.id,
-      "conversation": [
-        widget.itemId,
-        pvSettingsLogic.currentUserInfo.value.id
-      ],
+      "conversation": [],
       "description": _descriptionController.text,
       "owner_id": pvSettingsLogic.currentUserInfo.value.id,
       "participants": [
@@ -51,6 +48,7 @@ class _CreateRoomDialogState extends State<CreateRoomDialog> {
         // Extract data from the response
         final data = responseData['data'];
         // Navigate to ChatScreen with extracted data
+        Navigator.of(context).pop();
         Navigator.push(
           context,
           MaterialPageRoute(

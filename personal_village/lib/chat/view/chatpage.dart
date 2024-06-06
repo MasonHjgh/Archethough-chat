@@ -1,21 +1,21 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:personal_village/models/common/user.dart';
 import 'package:personal_village/utility/get_it_handler.dart';
 import 'package:personal_village/values/constants.dart';
 import 'package:personal_village/values/routes.dart';
+import 'package:http/http.dart' as http;
+import 'package:web_socket_channel/web_socket_channel.dart';
 
-// Define a Room class to represent the room object
 class Room {
   final String id;
   final String name;
-  final List<String> msg;
-  // final List<String> participants;
+  final List<Map<String, String>> msg;
 
   Room({
     required this.id,
     required this.name,
     required this.msg,
-    // required this.participants,
   });
 }
 
@@ -28,18 +28,35 @@ class ChatScreen extends StatefulWidget {
   _ChatScreenState createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   TextEditingController _messageController = TextEditingController();
-  List<String> messages = [];
+  List<Map<String, String>> messages = [];
+  late WebSocketChannel channel;
+  bool _isChannelInitialized = false;
+  late String roomKey;
 
   @override
   void initState() {
     super.initState();
-    messages = widget.room.msg; // Initialize messages with existing messages
+    WidgetsBinding.instance.addObserver(this);
+    startRoom();
+    messages = widget.room.msg;
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    if (_isChannelInitialized) {
+      channel.sink.close();
+    }
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final currentUserId = pvSettingsLogic.currentUserInfo.value.id;
+    final currentUserHandle = pvSettingsLogic.currentUserInfo.value.userhandle;
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -83,11 +100,44 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: ListView.builder(
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(messages[index]),
+            child: StreamBuilder(
+              stream: _isChannelInitialized ? channel.stream : null,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (snapshot.hasData) {
+                  final message = jsonDecode(snapshot.data.toString());
+                  messages.add({
+                    "sender_id": message["sender_id"],
+                    "body": message["body"],
+                    "handle": message["handle"]
+                  });
+                }
+                return ListView.builder(
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    final message = messages[index];
+                    final isCurrentUser = message["sender_id"] == currentUserId;
+
+                    return Align(
+                      alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                        children: [
+                          Text(message["handle"] ?? 'Unknown', style: TextStyle(fontWeight: FontWeight.bold)),
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: isCurrentUser ? Colors.blue : Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(message["body"] ?? ''),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 );
               },
             ),
@@ -114,7 +164,6 @@ class _ChatScreenState extends State<ChatScreen> {
                 IconButton(
                   icon: Icon(Icons.send),
                   onPressed: () {
-                    // Send the message to the room, and update the UI
                     String message = _messageController.text;
                     sendMessage(message);
                   },
@@ -129,20 +178,61 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void sendMessage(String message) {
-    // In a real application, you would send the message to the recipient
-    // and update the chat history, either by using a database or a real-time messaging service.
+    if (message.isNotEmpty && _isChannelInitialized) {
+      // Create the JSON message
+      final messageJson = jsonEncode({
+        "sender_id": pvSettingsLogic.currentUserInfo.value.id,
+        "handle": pvSettingsLogic.currentUserInfo.value.userhandle,
+        "room_key": roomKey,
+        "room_id": widget.room.id,
+        "body": message
+      });
 
-    // Here, you would send the message to the recipient using the appropriate method
+      // Send the JSON message to the WebSocket server
+      channel.sink.add(messageJson);
 
-    // For example:
-    // chatService.sendMessage(widget.room.id, message);
+      setState(() {
+        messages.add({
+          "sender_id": pvSettingsLogic.currentUserInfo.value.id,
+          "handle": pvSettingsLogic.currentUserInfo.value.userhandle,
+          "body": message
+        });
+      });
+      _messageController.clear();
+    }
+  }
 
-    // Instead of directly adding the message to the room's message history
-    setState(() {
-      messages.add(message);
-    });
+  Future<void> startRoom() async {
+    String htUrl = apiUrl + "/ws/start_websocket/" + widget.room.id;
+    final response = await http.post(
+      Uri.parse(htUrl),
+      headers: {
+        'Authorization': 'Bearer ${pvSettingsLogic.currentUserInfo.value.accesstoken}',
+      },
+    );
 
-    // Clear the input field
-    _messageController.clear();
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      final url = Uri.parse('$wsUrl/ws/room/${jsonResponse['room_id']}');
+      channel = WebSocketChannel.connect(url);
+      roomKey = jsonResponse['room_key']; // Save the room key
+
+      // Add the conversation messages to the messages list
+      for (var message in jsonResponse['conversation']) {
+        final msgResponse = json.decode(message);
+        messages.add({
+          "sender_id": msgResponse["user_id"],
+          "handle": msgResponse["user_handle"],
+          "body": msgResponse["message"]
+        });
+      }
+
+      await channel.ready;
+      setState(() {
+        _isChannelInitialized = true; // Set the state to update the UI
+      });
+    } else {
+      print("error");
+    }
   }
 }
